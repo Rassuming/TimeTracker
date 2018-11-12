@@ -1,37 +1,58 @@
-var states = [
-  "Not At Work",
-  "Clocked In",
-  "Lunch Break"
-]
-var currentState = states[0];
-var hadLunch = false;
-
+const moment = require('moment');
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("time_btn").onclick = (e) => { 
-    let btn_text = "";
-    if(currentState === states[0]){
-      //Arrived at work
-      currentState = states[1];
-      btn_text = "Take Lunch";
-      hadLunch = false;
-    } else if(currentState === states[1] && hadLunch){
-      //Going home
-      currentState = states[0];
-      btn_text = "Got In";
-    } else if(currentState === states[1]){
-      //Going out to lunch
-      currentState = states[2];
-      btn_text = "Lunch Finished";
-      hadLunch = true;
-    } else {
-      //Got back from lunch
-      currentState = states[1];
-      btn_text = "Go Home";
-    }
-    console.log(e);
-    e.srcElement.innerText = btn_text;
-    
+  let btn = document.getElementById("time_btn");
+  let timeText = [
+    document.getElementById('clocked_in'),
+    document.getElementById('lunch_start'),
+    document.getElementById('lunch_end'),
+    document.getElementById('clocked_out')
+  ]
+  let buttonText = [
+    "Get In",
+    "Take Lunch",
+    "Finish Lunch",
+    "Go Home"
+  ]
+  let times = [0,0,0,0];
+  let currentState = 0;
+  let currentClock = timeText[0];
+  btn.innerText = buttonText[currentState];
 
+  setInterval(()=>{
+    let totalToday = 0;
+    if(times[0]){
+      let delta = times[1] ? times[1] : moment(new Date());
+      totalToday += delta.diff(times[0], 'seconds');
+    } if(times[2]){
+      let delta = times[3] ? times[3] : moment(new Date());
+      totalToday += delta.diff(times[2], 'seconds');
+    } 
+    let formatted = moment("2015-01-01").startOf('day').seconds(totalToday).format('H:mm:ss');
+    document.getElementById('today_hours').innerText = formatted;
+  }, 1000);
+
+  btn.onclick = () => { 
+    let now = moment(new Date());
+    times[currentState] = now;
+
+    // Calculate Clock Times
+    currentClock.innerText = now.format('h:mmA');
+    currentClock.parentElement.classList.add('hasTime');
+    currentClock = currentState < buttonText.length-1 ? timeText[currentState+1] : timeText[0];
+
+    // Increment Button Text
+    btn.innerText = buttonText[ currentState < buttonText.length-1 ? ++currentState : currentState=0 ];
+
+    // Reset Stuff
+    if(currentState === 0){
+      times = [0,0,0,0];
+      timeText.forEach(element => {
+        element.innerText = "";
+        element.classList.remove('hasTime');
+        document.getElementById('week_hours').innerText = document.getElementById('today_hours').innerText;
+        document.getElementById('week_hours').innerText = '';
+      });
+    }
   }
 });

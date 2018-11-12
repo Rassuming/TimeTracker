@@ -9,10 +9,30 @@
 </head>
 <body>
   <main>
-    <h1 class="timeinfo">Today: <span id="today_hours"></span></h1>
-    <h2>This Week: <span id="week_hours"></span></h1>
-    <h2>Total: <span id="total_hours"></span></h1>
-    <button id="time_btn">Clock In</button>
+    <section>
+      <div class="time">
+        <span class="title">Clocked In</span>
+        <span class="content" id="clocked_in"></span>
+      </div>
+      <div class="time">
+        <span class="title">Lunch Start</span>
+        <span class="content" id="lunch_start"></span>
+      </div>
+      <div class="time">
+        <span class="title">Lunch End</span>
+        <span class="content" id="lunch_end"></span>
+      </div>
+      <div class="time">
+        <span class="title">Clocked Out</span>
+        <span class="content" id="clocked_out"></span>
+      </div>
+    </section>
+    <section>
+      <h1 class="timeinfo">Today: <span id="today_hours"></span></h1>
+      <h2>This Week: <span id="week_hours"></span></h1>
+      <h2>Total: <span id="total_hours"></span></h1>
+    </section>
+    <button id="time_btn"></button>
   </main>
 </body>
 </html>

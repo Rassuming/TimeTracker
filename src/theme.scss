@@ -23,11 +23,37 @@ h1, h2 {
   margin-bottom: 2vmin;
 }
 
+section {
+  width: 500px;
+  display: block;
+
+  .time {
+
+    color: rgba(255,255,255,0.4);
+
+    &.hasTime {
+      color: $white;
+    }
+
+    .title {
+      display: inline-block;
+      width: 50%;
+      font-weight: 400;
+    }
+    .content {
+      display: inline-block;
+      font-weight: 600;
+      text-align: right;
+    }
+  }
+}
+
 main {
   display: flex;
   flex-wrap: wrap;
-  justify-content:center;
-  align-items:center;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 button {
